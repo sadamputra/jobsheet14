@@ -1,4 +1,4 @@
-package jobsheet14.Praktikum2;
+package jobsheet14.TugasPraktikum;
 
 public class Mahasiswa23 {
 
@@ -22,9 +22,9 @@ public class Mahasiswa23 {
 
         System.out.println(
             "NIM : " + nim +
-            " Nama : " + nama +
-            " Kelas : " + kelas +
-            " IPK : " + ipk
+            " | Nama : " + nama +
+            " | Kelas : " + kelas +
+            " | IPK : " + ipk
         );
     }
 }

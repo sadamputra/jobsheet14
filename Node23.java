@@ -1,4 +1,5 @@
-package jobsheet14.Praktikum2;
+package jobsheet14.TugasPraktikum;
+
 
 public class Node23 {
 
@@ -11,6 +12,7 @@ public class Node23 {
 
     public Node23(Mahasiswa23 mahasiswa) {
         this.mahasiswa = mahasiswa;
-        left = right = null;
+        left = null;
+        right = null;
     }
 }

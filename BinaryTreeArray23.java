@@ -1,4 +1,4 @@
-package jobsheet14.Praktikum2;
+package jobsheet14.TugasPraktikum;
 
 public class BinaryTreeArray23 {
 
@@ -6,16 +6,34 @@ public class BinaryTreeArray23 {
     int idxLast;
 
     public BinaryTreeArray23() {
+
         dataMahasiswa = new Mahasiswa23[10];
+        idxLast = -1;
     }
 
-    void populateData(Mahasiswa23[] dataMhs, int idxLast) {
+    // =========================
+    // ADD DATA
+    // =========================
 
-        this.dataMahasiswa = dataMhs;
-        this.idxLast = idxLast;
+    public void add(Mahasiswa23 data) {
+
+        if (idxLast < dataMahasiswa.length - 1) {
+
+            idxLast++;
+
+            dataMahasiswa[idxLast] = data;
+
+        } else {
+
+            System.out.println("Array penuh");
+        }
     }
 
-    void traverseInOrder(int idxStart) {
+    // =========================
+    // IN ORDER
+    // =========================
+
+    public void traverseInOrder(int idxStart) {
 
         if (idxStart <= idxLast) {
 
@@ -26,6 +44,25 @@ public class BinaryTreeArray23 {
                 dataMahasiswa[idxStart].tampilInformasi();
 
                 traverseInOrder(2 * idxStart + 2);
+            }
+        }
+    }
+
+    // =========================
+    // PRE ORDER
+    // =========================
+
+    public void traversePreOrder(int idxStart) {
+
+        if (idxStart <= idxLast) {
+
+            if (dataMahasiswa[idxStart] != null) {
+
+                dataMahasiswa[idxStart].tampilInformasi();
+
+                traversePreOrder(2 * idxStart + 1);
+
+                traversePreOrder(2 * idxStart + 2);
             }
         }
     }

@@ -1,4 +1,4 @@
-package jobsheet14.Praktikum2;
+package jobsheet14.TugasPraktikum;
 
 public class BinaryTree23 {
 
@@ -12,79 +12,100 @@ public class BinaryTree23 {
         return root == null;
     }
 
+    // =========================
+    // ADD ITERATIF
+    // =========================
+
     public void add(Mahasiswa23 mahasiswa) {
 
         Node23 newNode = new Node23(mahasiswa);
 
         if (isEmpty()) {
             root = newNode;
+            return;
+        }
 
-        } else {
+        Node23 current = root;
+        Node23 parent;
 
-            Node23 current = root;
-            Node23 parent = null;
+        while (true) {
 
-            while (true) {
+            parent = current;
 
-                parent = current;
+            if (mahasiswa.ipk < current.mahasiswa.ipk) {
 
-                if (mahasiswa.ipk < current.mahasiswa.ipk) {
+                current = current.left;
 
-                    current = current.left;
+                if (current == null) {
+                    parent.left = newNode;
+                    return;
+                }
 
-                    if (current == null) {
-                        parent.left = newNode;
-                        return;
-                    }
+            } else {
 
-                } else {
+                current = current.right;
 
-                    current = current.right;
-
-                    if (current == null) {
-                        parent.right = newNode;
-                        return;
-                    }
+                if (current == null) {
+                    parent.right = newNode;
+                    return;
                 }
             }
         }
     }
 
-    boolean find(double ipk) {
+    // =========================
+    // ADD REKURSIF
+    // =========================
 
-        boolean result = false;
+    public void addRekursif(Mahasiswa23 mahasiswa) {
+        root = addRekursif(root, mahasiswa);
+    }
+
+    private Node23 addRekursif(Node23 current, Mahasiswa23 mahasiswa) {
+
+        if (current == null) {
+            return new Node23(mahasiswa);
+        }
+
+        if (mahasiswa.ipk < current.mahasiswa.ipk) {
+            current.left = addRekursif(current.left, mahasiswa);
+
+        } else if (mahasiswa.ipk > current.mahasiswa.ipk) {
+            current.right = addRekursif(current.right, mahasiswa);
+        }
+
+        return current;
+    }
+
+    // =========================
+    // FIND
+    // =========================
+
+    public boolean find(double ipk) {
+
         Node23 current = root;
 
         while (current != null) {
 
-            if (current.mahasiswa.ipk == ipk) {
-                result = true;
-                break;
+            if (ipk == current.mahasiswa.ipk) {
+                return true;
 
-            } else if (ipk > current.mahasiswa.ipk) {
-                current = current.right;
+            } else if (ipk < current.mahasiswa.ipk) {
+                current = current.left;
 
             } else {
-                current = current.left;
+                current = current.right;
             }
         }
 
-        return result;
+        return false;
     }
 
-    void traversePreOrder(Node23 node) {
+    // =========================
+    // TRAVERSAL
+    // =========================
 
-        if (node != null) {
-
-            node.mahasiswa.tampilInformasi();
-
-            traversePreOrder(node.left);
-
-            traversePreOrder(node.right);
-        }
-    }
-
-    void traverseInOrder(Node23 node) {
+    public void traverseInOrder(Node23 node) {
 
         if (node != null) {
 
@@ -96,7 +117,19 @@ public class BinaryTree23 {
         }
     }
 
-    void traversePostOrder(Node23 node) {
+    public void traversePreOrder(Node23 node) {
+
+        if (node != null) {
+
+            node.mahasiswa.tampilInformasi();
+
+            traversePreOrder(node.left);
+
+            traversePreOrder(node.right);
+        }
+    }
+
+    public void traversePostOrder(Node23 node) {
 
         if (node != null) {
 
@@ -108,123 +141,63 @@ public class BinaryTree23 {
         }
     }
 
-    Node23 getSuccessor(Node23 del) {
+    // =========================
+    // CARI MIN IPK
+    // =========================
 
-        Node23 successor = del.right;
-        Node23 successorParent = del;
-
-        while (successor.left != null) {
-
-            successorParent = successor;
-            successor = successor.left;
-        }
-
-        if (successor != del.right) {
-
-            successorParent.left = successor.right;
-            successor.right = del.right;
-        }
-
-        return successor;
-    }
-
-    void delete(double ipk) {
+    public void cariMinIPK() {
 
         if (isEmpty()) {
-            System.out.println("Binary tree kosong");
+            System.out.println("Tree kosong");
             return;
         }
 
-        Node23 parent = root;
         Node23 current = root;
-        boolean isLeftChild = false;
 
-        while (current != null) {
-
-            if (current.mahasiswa.ipk == ipk) {
-                break;
-
-            } else if (ipk < current.mahasiswa.ipk) {
-
-                parent = current;
-                current = current.left;
-                isLeftChild = true;
-
-            } else {
-
-                parent = current;
-                current = current.right;
-                isLeftChild = false;
-            }
+        while (current.left != null) {
+            current = current.left;
         }
 
-        if (current == null) {
+        System.out.println("\nMahasiswa dengan IPK Minimum");
+        current.mahasiswa.tampilInformasi();
+    }
 
-            System.out.println("Data tidak ditemukan");
+    // =========================
+    // CARI MAX IPK
+    // =========================
+
+    public void cariMaxIPK() {
+
+        if (isEmpty()) {
+            System.out.println("Tree kosong");
             return;
+        }
 
-        } else {
+        Node23 current = root;
 
-            if (current.left == null && current.right == null) {
+        while (current.right != null) {
+            current = current.right;
+        }
 
-                if (current == root) {
-                    root = null;
+        System.out.println("\nMahasiswa dengan IPK Maximum");
+        current.mahasiswa.tampilInformasi();
+    }
 
-                } else {
+    // =========================
+    // TAMPIL IPK DI ATAS BATAS
+    // =========================
 
-                    if (isLeftChild) {
-                        parent.left = null;
-                    } else {
-                        parent.right = null;
-                    }
-                }
+    public void tampilMahasiswaIPKdiAtas(Node23 node, double batas) {
 
-            } else if (current.left == null) {
+        if (node != null) {
 
-                if (current == root) {
-                    root = current.right;
+            tampilMahasiswaIPKdiAtas(node.left, batas);
 
-                } else {
-
-                    if (isLeftChild) {
-                        parent.left = current.right;
-                    } else {
-                        parent.right = current.right;
-                    }
-                }
-
-            } else if (current.right == null) {
-
-                if (current == root) {
-                    root = current.left;
-
-                } else {
-
-                    if (isLeftChild) {
-                        parent.left = current.left;
-                    } else {
-                        parent.right = current.left;
-                    }
-                }
-
-            } else {
-
-                Node23 successor = getSuccessor(current);
-
-                if (current == root) {
-                    root = successor;
-
-                } else {
-
-                    if (isLeftChild) {
-                        parent.left = successor;
-                    } else {
-                        parent.right = successor;
-                    }
-                }
-
-                successor.left = current.left;
+            if (node.mahasiswa.ipk > batas) {
+                node.mahasiswa.tampilInformasi();
             }
+
+            tampilMahasiswaIPKdiAtas(node.right, batas);
         }
     }
 }
