@@ -1,4 +1,4 @@
-package jobsheet14.Praktikum1;
+package jobsheet14.Praktikum2;
 
 public class BinaryTree23 {
 
